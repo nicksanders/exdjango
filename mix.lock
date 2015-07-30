@@ -1,0 +1,3 @@
+%{"poison": {:hex, :poison, "1.4.0"},
+  "timex": {:hex, :timex, "0.16.2"},
+  "tzdata": {:hex, :tzdata, "0.1.6"}}
