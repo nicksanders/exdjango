@@ -5,7 +5,7 @@ defmodule ExDjango.Session do
 
   def validate(salt, secret, session_id, max_age \\ nil) do
     result = nil
-    [signature|data] = String.split(session_id, ":", parts: 2)
+    {signature, data} = String.split(session_id, ":", parts: 2)
 
     data_signature = Signing.base64_hmac(salt, secret, data)
     if data_signature != signature do
@@ -37,7 +37,8 @@ defmodule ExDjango.Session do
   end
 
   def get_user_id(payload) do
-
+    session = Poison.Parser.parse!(payload)
+    session["_auth_user_id"]
   end
 
 end

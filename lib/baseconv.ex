@@ -25,7 +25,7 @@ defmodule ExDjango.BaseConv do
   def convert(number, from_digits, to_digits, sign) do
     neg  = false
     if String.starts_with?(number, sign) do
-      number = String.lstrip(number, sign)
+      {_, number} = String.split_at(number, 1)
       neg = true
     end
 
@@ -34,7 +34,7 @@ defmodule ExDjango.BaseConv do
     if x == 0 do
       {res, _} = String.split_at(to_digits, 1)
     else
-      res = convert_from(x, to_digits, '')
+      res = convert_to(x, to_digits, "")
     end
 
     {neg, res}
@@ -42,15 +42,15 @@ defmodule ExDjango.BaseConv do
 
   def convert_from([], _from_digits, x), do: x
   def convert_from([digit|t], from_digits, x) do
-    x = x * String.length(from_digits) + Enum.find_index(String.graphemes(from_digits), digit, fn(x) -> x end)
+    x = x * String.length(from_digits) + Enum.find_index(String.graphemes(from_digits), fn(x) -> x == digit end)
     convert_from(t, from_digits, x)
   end
 
   def convert_to(x, _to_digits, res) when x <= 0, do: res
   def convert_to(x, to_digits, res) when x > 0 do
     digit = rem(x, String.length(to_digits))
-    res = String.slice(digit, 1) <> res
-    x = Float.floor(x / String.length(to_digits))
+    res = String.slice(to_digits, digit, 1) <> res
+    x = div(x, String.length(to_digits))
     convert_to(x, to_digits, res)
   end
 
