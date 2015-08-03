@@ -5,17 +5,17 @@ defmodule ExDjango.Session do
 
   def validate(salt, secret, session_id, max_age \\ nil) do
     result = nil
-    {signature, data} = String.split(session_id, ":", parts: 2)
+    [payload, timestamp, signature] = String.split(session_id, ":")
 
-    data_signature = Signing.base64_hmac(salt, secret, data)
+    data_signature = Signing.base64_hmac(salt, secret, payload <> ":" <> timestamp)
     if data_signature != signature do
       {:error, "Invalid Signature"}
     else
-      [timestamp|payload] = String.split(data, ":")
 
       if max_age != nil do
         min_secs = Timex.Time.now(:secs) - max_age
-        if BaseConv.decode(:base62, timestamp) < min_secs do
+        secs = BaseConv.decode(:base62, timestamp)
+        if secs < min_secs do
           result = {:error, "Session Expired"}
         end
       end
