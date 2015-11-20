@@ -1,4 +1,4 @@
-defmodule ExDjango.Zlib do
+defmodule ExDjango.Utils.Zlib do
 
   def compress(data) do
     z = :zlib.open()
@@ -6,7 +6,7 @@ defmodule ExDjango.Zlib do
     :zlib.deflate(z, data)
     result = :zlib.deflate(z, << >>, :finish)
     :zlib.deflateEnd(z)
-    result
+    :erlang.list_to_binary(result)
   end
 
   def decompress(data, wbits \\ 15) do
