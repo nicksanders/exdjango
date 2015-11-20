@@ -1,6 +1,6 @@
 defmodule ExDjango.ZlibTest do
-  use ExUnit.Case
-  alias ExDjango.Zlib
+  use ExUnit.Case, async: true
+  alias ExDjango.Utils.Zlib
 
   test "Zlib" do
     text = "test"

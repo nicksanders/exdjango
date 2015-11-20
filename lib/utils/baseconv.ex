@@ -1,4 +1,4 @@
-defmodule ExDjango.BaseConv do
+defmodule ExDjango.Utils.Baseconv do
 
   @base10_chars "0123456789"
 
@@ -11,16 +11,11 @@ defmodule ExDjango.BaseConv do
       :base56 -> "23456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnpqrstuvwxyz"
       :base62 -> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz"
       :base64 -> "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz-_"
-      _       ->
     end
   end
 
-  def get_sign(base) do
-    case base do
-      :base64 -> "$"
-      _       -> "-"
-    end
-  end
+  def get_sign(:base64), do: "$"
+  def get_sign(_base), do: "-"
 
   def convert(number, from_digits, to_digits, sign) do
     neg  = false
@@ -29,12 +24,9 @@ defmodule ExDjango.BaseConv do
       neg = true
     end
 
-    x = convert_from(String.graphemes(number), from_digits, 0)
-
-    if x == 0 do
-      {res, _} = String.split_at(to_digits, 1)
-    else
-      res = convert_to(x, to_digits, "")
+    case convert_from(String.graphemes(number), from_digits, 0) do
+        0 -> {res, _} = String.split_at(to_digits, 1)
+        x -> res = convert_to(x, to_digits, "")
     end
 
     {neg, res}
@@ -55,6 +47,7 @@ defmodule ExDjango.BaseConv do
   end
 
   def encode(base, s), do: encode(get_chars(base), get_sign(base), s)
+  def encode(chars, sign, s) when is_integer(s), do: encode(chars, sign, Integer.to_string(s))
   def encode(chars, sign, s) do
     {neg, res} = convert(s, @base10_chars, chars, "-")
     if neg, do: res = sign <> res

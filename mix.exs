@@ -14,7 +14,10 @@ defmodule ExDjango.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger]]
+    case Mix.env do
+      :test -> [applications: [:logger, :exredis]]
+      _ -> [applications: [:logger]]
+    end
   end
 
   # Dependencies can be Hex packages:
@@ -28,8 +31,10 @@ defmodule ExDjango.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:poison, "~> 1.4.0"},
-      {:timex, "~> 0.16.2"}
+      {:plug, ">= 0.0.0", only: [:test]},
+      {:poison, "~> 1.5.0", only: [:test]},
+      {:comeonin, "~> 1.6", only: [:test]},
+      {:exredis, "~> 0.2.0", only: [:test]}
     ]
   end
 end

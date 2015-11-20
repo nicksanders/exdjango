@@ -1,6 +1,6 @@
 defmodule ExDjango.SigningTest do
-  use ExUnit.Case
-  alias ExDjango.Signing
+  use ExUnit.Case, async: true
+  alias ExDjango.Utils.Signing
 
   test "Signing b64_decode" do
     input = "dpzEj8pbu98e1vde2zSv-0DbQ7o"

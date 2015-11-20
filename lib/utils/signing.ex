@@ -1,6 +1,6 @@
-defmodule ExDjango.Signing do
+defmodule ExDjango.Utils.Signing do
 
-  def default_salt() do
+  def default_salt do
     "django.contrib.sessions.backends.signed_cookiessigner"
   end
 
@@ -9,8 +9,10 @@ defmodule ExDjango.Signing do
   end
 
   def b64_decode(s) do
-    padding = String.duplicate("=", 4 - rem(String.length(s), 4))
-    Base.url_decode64!(s <> padding)
+    case rem(String.length(s), 4) do
+      0 -> s
+      x -> s <> String.duplicate("=", 4 - x)
+    end |> Base.url_decode64!()
   end
 
   def salted_hmac(salt, secret, value) do
