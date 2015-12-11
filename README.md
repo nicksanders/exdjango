@@ -69,11 +69,11 @@ plug Plug.Session,
   key: "sessionid"
 ```
 
-get/set user id ("_auth_user_id" from django session)
+set user / get user_id ("_auth_user_id" from django session)
 
 ```elixir
 conn
- |> ExDjango.Session.put_user(99)
+ |> ExDjango.Session.put_user(user)
 
 conn
  |> ExDjango.Session.get_user()   
