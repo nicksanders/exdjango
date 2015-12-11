@@ -7,7 +7,9 @@ defmodule ExDjango.Mixfile do
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
-     deps: deps]
+     deps: deps,
+     description: "An elixir library for working with django",
+     package: package]
   end
 
   # Configuration for the OTP application
@@ -35,6 +37,17 @@ defmodule ExDjango.Mixfile do
       {:poison, "~> 1.5.0", only: [:test]},
       {:comeonin, "~> 1.6", only: [:test]},
       {:exredis, "~> 0.2.0", only: [:test]}
+    ]
+  end
+
+  defp package do
+    [
+      files: ["lib", "mix.exs", "README.md", "LICENSE"],
+      maintainers: ["Nick Sanders"],
+      licenses: ["MIT"],
+      links: %{
+        "GitHub" => "https://github.com/nicksanders/exdjango"
+      }
     ]
   end
 end

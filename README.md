@@ -1,6 +1,6 @@
 # ExDjango [![Build Status](https://travis-ci.org/nicksanders/exdjango.svg?branch=master)](https://travis-ci.org/nicksanders/exdjango)
 
-A few elixir libraries for working with django
+An elixir library for working with django
 
 ## Features
 
