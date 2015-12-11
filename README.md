@@ -1,4 +1,8 @@
-# ExDjango [![Build Status](https://travis-ci.org/nicksanders/exdjango.svg?branch=master)](https://travis-ci.org/nicksanders/exdjango)
+# ExDjango
+
+[![Travis](https://img.shields.io/travis/nicksanders/exdjango.svg?style=flat-square)](https://travis-ci.org/nicksanders/exdjango)
+[![Hex.pm](https://img.shields.io/hexpm/v/exdjango.svg?style=flat-square)](https://hex.pm/packages/exdjango)
+[![Hex.pm](https://img.shields.io/hexpm/dt/exdjango.svg?style=flat-square)](https://hex.pm/packages/exdjango)
 
 An elixir library for working with django
 
@@ -39,7 +43,8 @@ If you need to read/write django passwords you need to add comeonin
 {:comeonin, "~> 1.6"},
 ```
 
-## Django sessions - add secret_key to config.exs and edit endpoint.ex Plug config
+## Django sessions
+Add secret_key to config.exs and add either Cookie or Redis to endpoint.ex Plug config
 
 ```elixir
 # config.exs  
