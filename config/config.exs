@@ -22,3 +22,5 @@ use Mix.Config
 # here (which is why it is important to import them last).
 #
 #     import_config "#{Mix.env}.exs"
+config :exdjango, :config,
+  secret_key: String.duplicate("abcdef0123456789", 8)

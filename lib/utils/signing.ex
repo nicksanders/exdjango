@@ -1,6 +1,6 @@
 defmodule ExDjango.Utils.Signing do
 
-  def default_salt do
+  def default_salt() do
     "django.contrib.sessions.backends.signed_cookiessigner"
   end
 

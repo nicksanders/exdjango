@@ -36,7 +36,7 @@ defmodule ExDjango.Session.RedisTest do
   test "gets and sets user in session cookie" do
     conn = conn(:get, "/")
      |> sign_conn()
-     |> ExDjango.Session.put_user(99)
+     |> ExDjango.Session.put_user(%{id: 99, password: "pa$$word"})
      |> send_resp(200, "")
 
     assert conn(:get, "/")

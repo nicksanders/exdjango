@@ -4,8 +4,7 @@ defmodule ExDjango.Session.CookieTest do
 
   @default_opts [
     store: ExDjango.Session.Cookie,
-    key: "sessionid",
-    secret_key: String.duplicate("abcdef0123456789", 8)
+    key: "sessionid"
   ]
 
   @session_opts Plug.Session.init(@default_opts)
@@ -37,7 +36,7 @@ defmodule ExDjango.Session.CookieTest do
   test "gets and sets user in session cookie" do
     conn = conn(:get, "/")
      |> sign_conn()
-     |> ExDjango.Session.put_user(99)
+     |> ExDjango.Session.put_user(%{id: 99, password: "pa$$word"})
      |> send_resp(200, "")
 
     assert conn(:get, "/")

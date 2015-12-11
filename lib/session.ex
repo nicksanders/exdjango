@@ -1,12 +1,18 @@
 defmodule ExDjango.Session do
+  alias ExDjango.Utils.Signing
+
+  @auth_hash_salt "django.contrib.auth.models.AbstractBaseUser.get_session_auth_hash"
+  @auth_user_backend "django.contrib.auth.backends.ModelBackend"
 
   def get_user(conn) do
      Plug.Conn.get_session(conn, "_auth_user_id")
   end
 
-  def put_user(conn, user) when is_map(user), do: put_user(conn, user.id)
-  def put_user(conn, user_id) when is_integer(user_id) do
-    Plug.Conn.put_session(conn, "_auth_user_id", user_id)
+  def put_user(conn, user) when is_map(user) do
+    conn
+    |> Plug.Conn.put_session("_auth_user_id", user.id)
+    |> Plug.Conn.put_session("_auth_user_backend", @auth_user_backend)
+    |> Plug.Conn.put_session("_auth_user_hash", session_auth_hash(user.password))
   end
 
   def decode(json) do
@@ -18,6 +24,17 @@ defmodule ExDjango.Session do
 
   def encode(data) do
      data |> Poison.encode!
+  end
+
+  def session_auth_hash(password) do
+    Signing.salted_hmac(@auth_hash_salt, secret_key(), password) |> Base.encode16
+  end
+
+  def secret_key() do
+    case Application.get_env(:exdjango, :config)[:secret_key] do
+      nil -> raise(ArgumentError, "ExDjango session needs a secret key")
+      x -> x
+    end
   end
 
 end

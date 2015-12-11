@@ -2,6 +2,8 @@
 
 An elixir library for working with django
 
+Warning: This is Alpha software and subject to breaking changes.
+
 ## Features
 
 * Django cookie-based sessions
@@ -14,7 +16,7 @@ Add ex_django to your `mix.exs` dependencies other dependencies are optional dep
 
 ```elixir
 defp deps do
-[ {:ex_django, "~> 0.1.0"} ]
+[ {:exdjango, "~> 0.1.1"} ]
 end
 ```
 
@@ -37,14 +39,20 @@ If you need to read/write django passwords you need to add comeonin
 {:comeonin, "~> 1.6"},
 ```
 
-## Django sessions
+## Django sessions - add secret_key to config.exs and edit endpoint.ex Plug config
+
+```elixir
+# config.exs  
+config :exdjango, :config,
+  secret_key: "django-secret-key"
+```
+and
 
 ```elixir
 # endpoint.ex  
 plug Plug.Session,
-    store: ExDjango.Session.Cookie,
-    key: "sessionid",
-    secret_key: "django-secret-key"
+  store: ExDjango.Session.Cookie,
+  key: "sessionid"
 ```
 
 or
@@ -52,8 +60,8 @@ or
 ```elixir
 # endpoint.ex  
 plug Plug.Session,
-    store: ExDjango.Session.Redis,
-    key: "sessionid"
+  store: ExDjango.Session.Redis,
+  key: "sessionid"
 ```
 
 get/set user id ("_auth_user_id" from django session)
