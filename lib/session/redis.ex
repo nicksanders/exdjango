@@ -1,10 +1,8 @@
 defmodule ExDjango.Session.Redis do
   alias ExDjango.Utils.Redis
 
-  @default_key_prefix ":1:django.contrib.sessions.cache"
-
   def init(opts) do
-    %{key_prefix: Keyword.get(opts, :key_prefix, @default_key_prefix)}
+    %{key_prefix: Keyword.get(opts, :key_prefix, Redis.default_session_key_prefix())}
   end
 
   def get(_conn, sid, opts) do

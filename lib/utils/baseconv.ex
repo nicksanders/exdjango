@@ -18,15 +18,14 @@ defmodule ExDjango.Utils.Baseconv do
   def get_sign(_base), do: "-"
 
   def convert(number, from_digits, to_digits, sign) do
-    neg  = false
-    if String.starts_with?(number, sign) do
-      {_, number} = String.split_at(number, 1)
-      neg = true
+    {neg, number} = case String.starts_with?(number, sign) do
+      false -> {false, number}
+      true -> {true, String.slice(number, 1..-1)}
     end
 
-    case convert_from(String.graphemes(number), from_digits, 0) do
-        0 -> {res, _} = String.split_at(to_digits, 1)
-        x -> res = convert_to(x, to_digits, "")
+    res = case convert_from(String.graphemes(number), from_digits, 0) do
+      0 -> String.slice(to_digits, 1..-1)
+      x -> convert_to(x, to_digits, "")
     end
 
     {neg, res}

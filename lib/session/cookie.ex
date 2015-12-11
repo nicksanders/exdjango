@@ -13,10 +13,7 @@ defmodule ExDjango.Session.Cookie do
   end
 
   def get(_conn, cookie, opts) do
-    session = case Cookie.verify(cookie, opts.secret_key, opts.max_age, opts.salt) do
-      {:ok, data} -> data |> Session.decode()
-      {:error, _} -> %{}
-    end
+    session = Cookie.get_session(cookie, opts.secret_key, opts.max_age, opts.salt)
     {cookie, session}
   end
 

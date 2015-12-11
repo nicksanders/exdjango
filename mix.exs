@@ -33,10 +33,10 @@ defmodule ExDjango.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:plug, ">= 0.0.0", only: [:test]},
-      {:poison, "~> 1.5.0", only: [:test]},
-      {:comeonin, "~> 1.6", only: [:test]},
-      {:exredis, "~> 0.2.0", only: [:test]}
+      {:plug, "~> 1.0.3"},
+      {:poison, "~> 1.5.0", optional: true},
+      {:comeonin, "~> 1.6", optional: true},
+      {:exredis, "~> 0.2.0", optional: true}
     ]
   end
 

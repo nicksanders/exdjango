@@ -76,7 +76,7 @@ conn
  |> ExDjango.Session.put_user(user)
 
 conn
- |> ExDjango.Session.get_user()   
+ |> ExDjango.Session.get_user_id()
 ```
 
 

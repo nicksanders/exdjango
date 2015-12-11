@@ -8,6 +8,7 @@ defmodule ExDjango.Utils.Redis do
     {client, key_prefix <> sid}
   end
 
+  def get_session(sid), do: default_session_key_prefix() |> get_session(sid)
   def get_session(key_prefix, sid) do
     {client, key} = init(key_prefix, sid)
     case client |> Exredis.Api.get(key) do

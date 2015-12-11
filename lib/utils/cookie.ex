@@ -2,14 +2,21 @@ defmodule ExDjango.Utils.Cookie do
   alias ExDjango.Utils.Baseconv
   alias ExDjango.Utils.Signing
   alias ExDjango.Utils.Zlib
+  alias ExDjango.Session
 
-  def verify(session_id, secret, max_age) do
-    verify(session_id, secret, max_age, Signing.default_salt())
+  def get_session(cookie, secret_key, max_age, salt) do
+    case verify(cookie, secret_key, max_age, salt) do
+      {:ok, data} -> data |> Session.decode()
+      {:error, _} -> %{}
+    end
   end
-  def verify(session_id, secret, max_age, salt) do
-    [payload, timestamp, signature] = String.split(session_id, ":")
 
-    case Signing.base64_hmac(salt, secret, payload <> ":" <> timestamp) do
+  def verify(session_id, secret_key, max_age) do
+    verify(session_id, secret_key, max_age, Signing.default_salt())
+  end
+  def verify(session_id, secret_key, max_age, salt) do
+    [payload, timestamp, signature] = String.split(session_id, ":")
+    case Signing.base64_hmac(salt, secret_key, payload <> ":" <> timestamp) do
        x when x == signature ->
          case verify_timestamp(timestamp, max_age) do
            :error -> {:error, "Session Expired"}
@@ -19,10 +26,10 @@ defmodule ExDjango.Utils.Cookie do
     end
   end
 
-  def create(payload, secret), do: create(payload, secret, Signing.default_salt())
-  def create(payload, secret, salt) do
+  def create(payload, secret_key), do: create(payload, secret_key, Signing.default_salt())
+  def create(payload, secret_key, salt) do
     first_part = create_data(payload) <> ":" <> create_timestamp()
-    signature = Signing.base64_hmac(salt, secret, first_part)
+    signature = Signing.base64_hmac(salt, secret_key, first_part)
     first_part <> ":" <> signature
   end
 

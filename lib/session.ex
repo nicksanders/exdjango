@@ -4,8 +4,11 @@ defmodule ExDjango.Session do
   @auth_hash_salt "django.contrib.auth.models.AbstractBaseUser.get_session_auth_hash"
   @auth_user_backend "django.contrib.auth.backends.ModelBackend"
 
-  def get_user(conn) do
-     Plug.Conn.get_session(conn, "_auth_user_id")
+  def get_user_id(%Plug.Conn{} = conn) do
+    Plug.Conn.get_session(conn, "_auth_user_id")
+  end
+  def get_user_id(session) do
+    session["_auth_user_id"]
   end
 
   def put_user(conn, user) when is_map(user) do

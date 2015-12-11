@@ -42,7 +42,7 @@ defmodule ExDjango.Session.CookieTest do
     assert conn(:get, "/")
      |> recycle_cookies(conn)
      |> sign_conn()
-     |> ExDjango.Session.get_user() == 99
+     |> ExDjango.Session.get_user_id() == 99
   end
 
 end
