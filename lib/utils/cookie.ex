@@ -15,14 +15,18 @@ defmodule ExDjango.Utils.Cookie do
     verify(session_id, secret_key, max_age, Signing.default_salt())
   end
   def verify(session_id, secret_key, max_age, salt) do
-    [payload, timestamp, signature] = String.split(session_id, ":")
-    case Signing.base64_hmac(salt, secret_key, payload <> ":" <> timestamp) do
-       x when x == signature ->
-         case verify_timestamp(timestamp, max_age) do
-           :error -> {:error, "Session Expired"}
-           :ok -> {:ok, decode_payload(payload)}
-         end
-       _ -> {:error, "Invalid Signature"}
+
+    case String.split(session_id, ":") do
+      [payload, timestamp, signature] ->
+        case Signing.base64_hmac(salt, secret_key, payload <> ":" <> timestamp) do
+           x when x == signature ->
+             case verify_timestamp(timestamp, max_age) do
+               :error -> {:error, "Session Expired"}
+               :ok -> {:ok, decode_payload(payload)}
+             end
+           _ -> {:error, "Invalid Signature"}
+        end
+      _ -> {:error, "Invalid Cookie"}
     end
   end
 
