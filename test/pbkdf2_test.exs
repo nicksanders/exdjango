@@ -150,5 +150,14 @@ defmodule ExDjango.Pbkdf2Test do
       Pbkdf2.checkpw(nil, "$pbkdf2-sha512$19000$JMT4nzOmVKrV.p/TmlMKwQ$jKbZHoPwUWBT08pjb/CnUZmFcB9JW4dsOzVkfi9X6Pdn5NXWeY.mhL1Bm4V9rjYL5ZfA32uh7Gl2gt5YQa/JCA")
     end
   end
-
+  
+  test "return false if raise_on_unusable_pass is false" do
+    assert Pbkdf2.checkpw("anypass", "!fLyg9p4OyCRCL5eQOxArW4dqEFqHJ6HoLTA54Agx", false) == false
+  end
+  
+  test "raise if raise_on_unusable_pass is true and password format is not known" do
+    assert_raise MatchError, fn ->
+      Pbkdf2.checkpw("anypass", "!fLyg9p4OyCRCL5eQOxArW4dqEFqHJ6HoLTA54Agx")
+    end
+  end
 end
