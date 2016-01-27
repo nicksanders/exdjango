@@ -85,20 +85,28 @@ defmodule ExDjango.Pbkdf2 do
 
   The check is performed in constant time to avoid timing attacks.
   """
-  def checkpw(password, hash) when is_binary(password) and is_binary(hash) do
+  def checkpw(password, hash, raise_on_unusable_pass \\ true) when is_binary(password) and is_binary(hash) do
     case String.starts_with?(hash, "$") do
       # If hash starts with $ use Comeonin to check it
       true ->
         Comeonin.Pbkdf2.checkpw(password, hash)
       false ->
-        [algorithm, rounds, salt, hash] = String.split(hash, "$")
-        pbkdf2(parse_algorithm(algorithm), password, salt, String.to_integer(rounds))
-        |> Base.encode64
-        |> Comeonin.Tools.secure_check(hash)
+        case String.split(hash, "$") do
+          [algorithm, rounds, salt, hash] ->
+            pbkdf2(parse_algorithm(algorithm), password, salt, String.to_integer(rounds))
+            |> Base.encode64
+            |> Comeonin.Tools.secure_check(hash)
+          [unknown_format] ->
+            if raise_on_unusable_pass do
+              raise MatchError
+            else
+              false
+            end
+        end
     end
 
   end
-  def checkpw(_password, _hash) do
+  def checkpw(_password, _hash, true) do
     raise ArgumentError, message: "Wrong type. The password and hash need to be strings."
   end
 
