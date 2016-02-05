@@ -1,7 +1,10 @@
 %{"base62": {:hex, :base62, "1.1.0"},
-  "comeonin": {:hex, :comeonin, "1.6.0"},
+  "comeonin": {:hex, :comeonin, "2.1.1"},
+  "connection": {:hex, :connection, "1.0.2"},
   "custom_base": {:hex, :custom_base, "0.1.0"},
   "eredis": {:hex, :eredis, "1.0.8"},
   "exredis": {:hex, :exredis, "0.2.3"},
-  "plug": {:hex, :plug, "1.0.3"},
-  "poison": {:hex, :poison, "1.5.0"}}
+  "plug": {:hex, :plug, "1.1.1"},
+  "poison": {:hex, :poison, "2.1.0"},
+  "poolboy": {:hex, :poolboy, "1.5.1"},
+  "redix": {:hex, :redix, "0.3.4"}}

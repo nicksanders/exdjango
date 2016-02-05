@@ -3,29 +3,23 @@ defmodule ExDjango.Utils.Redis do
 
   def default_session_key_prefix(), do: ":1:django.contrib.sessions.cache"
 
-  def init(key_prefix, sid) do
-    {:ok, client} = Exredis.start_link
-    {client, key_prefix <> sid}
-  end
+  def key(key_prefix, sid), do: key_prefix <> sid
 
   def get_session(sid), do: default_session_key_prefix() |> get_session(sid)
   def get_session(key_prefix, sid) do
-    {client, key} = init(key_prefix, sid)
-    case client |> Exredis.Api.get(key) do
-      :undefined -> %{}
-      session -> session |> Session.decode()
+    case Session.redis_pool().command(["GET", key(key_prefix, sid)]) do
+      {:ok, session} when session != nil -> session |> Session.decode()
+      _ -> %{}
     end
   end
 
   def put_session(key_prefix, sid, data) do
-    {client, key} = init(key_prefix, sid)
-    client |> Exredis.Api.set(key, Session.encode(data))
+    {:ok, _} = Session.redis_pool().command(["SET", key(key_prefix, sid), Session.encode(data)])
     sid
   end
 
   def delete_session(key_prefix, sid) do
-    {client, key} = init(key_prefix, sid)
-    client |> Exredis.Api.del(key)
+    {:ok, _} = Session.redis_pool().command(["DEL", key(key_prefix, sid)])
     :ok
   end
 

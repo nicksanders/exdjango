@@ -1,4 +1,9 @@
 defmodule ExDjango.Session.Redis do
+  @moduledoc """
+  Stores the session in redis.
+  """
+  @behaviour Plug.Session.Store
+
   alias ExDjango.Utils.Redis
 
   def init(opts) do

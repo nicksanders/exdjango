@@ -1,4 +1,9 @@
 defmodule ExDjango.Session.Cookie do
+  @moduledoc """
+  Stores the session in a cookie compatible with django's signed_cookies.
+  """
+  @behaviour Plug.Session.Store
+
   alias ExDjango.Session
   alias ExDjango.Utils.Cookie
   alias ExDjango.Utils.Signing
@@ -12,9 +17,9 @@ defmodule ExDjango.Session.Cookie do
     %{salt: salt, secret_key: secret_key, max_age: max_age}
   end
 
-  def get(_conn, cookie, opts) do
-    session = Cookie.get_session(cookie, opts.secret_key, opts.max_age, opts.salt)
-    {cookie, session}
+  def get(_conn, sid, opts) do
+    session = Cookie.get_session(sid, opts.secret_key, opts.max_age, opts.salt)
+    {sid, session}
   end
 
   def put(_conn, _sid, data, opts) do

@@ -14,21 +14,21 @@ defmodule ExDjango.CookieTest do
     assert Cookie.verify(input, @secret, 99999999) == {:ok, output}
 
     {:ok, data} = Cookie.verify(input, @secret, 99999999)
-    data |> Session.decode() |> Map.get("_auth_user_id") == 1
+    assert data |> Session.decode() |> Map.get("_auth_user_id") == 1
   end
 
   test "Cookie 2" do
     input = ".eJxVjj0PgjAYhP9LZ8EWCgFGEzfd3Ju39AQUW6XtovG_W6KL691zHy-mZrJDpAGsY7DZoNmGKYphVNFjUZr6K6xJprkk0OW9s2GZdL4i-c_1-dEZzLsf-1cwrdniXxvJj0k9a123Em2BBkV7JtFAkimrFhKGc4BEyUvep_B3XIXphqez69d9XNwd24OzxtlEzOSDWvCI8GFd5KLKeJMJeRJ1V9SdFOz9ASWLTlE:1ZQHoX:rZaEoy74yvex0aT4dbZdQ8vQkhU"
 
     {:ok, data} = Cookie.verify(input, @secret, nil)
-    data |> Session.decode() |> Map.get("_auth_user_id") == "2"
+    assert data |> Session.decode() |> Map.get("_auth_user_id") == "2"
   end
 
   test "Cookie 3" do
     input = ".eJxVjrsSwiAQRf-F2kSWEExSOmOnnT0DYfPQCBqg0fHfJWOatPece3c_RE7K9lH1SBqCNus12RGpYhhk9DhLrdo7WpOguSXR5a2zYR51vij5Sn1-cQan4-puBsalW2yzQfkhpaIWNXSCIjeVgY63jNVCdwwUK-mh6LQGFChUKv-PyzA-8O3s8uspzu6J-7OzxtlkTMoHOeMrog8JMwplRqsM-BVEU0ADnHx_5ZpNwg:1ZQHsx:2O2F6glRGY4o9pDrLcmljTAT7fI"
 
     {:ok, data} = Cookie.verify(input, @secret,  nil)
-    data |> Session.decode() |> Map.get("_auth_user_id") == "3"
+    assert data |> Session.decode() |> Map.get("_auth_user_id") == "3"
   end
 
 end

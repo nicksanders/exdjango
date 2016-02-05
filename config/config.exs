@@ -23,4 +23,5 @@ use Mix.Config
 #
 #     import_config "#{Mix.env}.exs"
 config :exdjango, :config,
-  secret_key: String.duplicate("abcdef0123456789", 8)
+  secret_key: String.duplicate("abcdef0123456789", 8),
+  redis_pool: ExDjango.RedixPool

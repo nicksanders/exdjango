@@ -91,16 +91,22 @@ defmodule ExDjango.Pbkdf2 do
       true ->
         Comeonin.Pbkdf2.checkpw(password, hash)
       false ->
-        [algorithm, rounds, salt, hash] = String.split(hash, "$")
-        pbkdf2(parse_algorithm(algorithm), password, salt, String.to_integer(rounds))
-        |> Base.encode64
-        |> Comeonin.Tools.secure_check(hash)
+        case String.split(hash, "$") do
+          [algorithm, rounds, salt, hash] ->
+            pbkdf2(parse_algorithm(algorithm), password, salt, String.to_integer(rounds))
+            |> Base.encode64
+            |> Comeonin.Tools.secure_check(hash)
+          _ ->
+            false
+        end
     end
-
   end
+
   def checkpw(_password, _hash) do
     raise ArgumentError, message: "Wrong type. The password and hash need to be strings."
   end
+
+
 
   @doc """
   Perform a dummy check for a user that does not exist.

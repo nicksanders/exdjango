@@ -4,19 +4,24 @@ defmodule ExDjango.Utils.Cookie do
   alias ExDjango.Utils.Zlib
   alias ExDjango.Session
 
-  def get_session(cookie, secret_key, max_age, salt) do
-    case verify(cookie, secret_key, max_age, salt) do
+
+  def get_session(sid) do
+    secret_key = Session.secret_key()
+    max_age = 7 * 24 * 60 * 60
+    salt = Signing.default_salt()
+    get_session(sid, secret_key, max_age, salt)
+  end
+
+  def get_session(sid, secret_key, max_age, salt) do
+    case verify(sid, secret_key, max_age, salt) do
       {:ok, data} -> data |> Session.decode()
       {:error, _} -> %{}
     end
   end
 
-  def verify(session_id, secret_key, max_age) do
-    verify(session_id, secret_key, max_age, Signing.default_salt())
-  end
-  def verify(session_id, secret_key, max_age, salt) do
-
-    case String.split(session_id, ":") do
+  def verify(sid, secret_key, max_age), do: verify(sid, secret_key, max_age, Signing.default_salt())
+  def verify(sid, secret_key, max_age, salt) do
+    case String.split(sid, ":") do
       [payload, timestamp, signature] ->
         case Signing.base64_hmac(salt, secret_key, payload <> ":" <> timestamp) do
            x when x == signature ->

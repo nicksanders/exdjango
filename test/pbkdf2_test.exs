@@ -151,4 +151,8 @@ defmodule ExDjango.Pbkdf2Test do
     end
   end
 
+  test "return false if raise_on_unusable_pass is false" do
+    assert Pbkdf2.checkpw("anypass", "!fLyg9p4OyCRCL5eQOxArW4dqEFqHJ6HoLTA54Agx") == false
+  end
+
 end

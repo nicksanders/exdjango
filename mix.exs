@@ -3,7 +3,7 @@ defmodule ExDjango.Mixfile do
 
   def project do
     [app: :exdjango,
-     version: "0.2.0",
+     version: "0.3.0",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,
@@ -17,26 +17,21 @@ defmodule ExDjango.Mixfile do
   # Type `mix help compile.app` for more information
   def application do
     case Mix.env do
-      :test -> [applications: [:logger, :exredis]]
+      :test -> [applications: [:logger, :redix]]
       _ -> [applications: [:logger]]
     end
   end
 
-  # Dependencies can be Hex packages:
+  # Specifies your project dependencies.
   #
-  #   {:mydep, "~> 0.3.0"}
-  #
-  # Or git/path repositories:
-  #
-  #   {:mydep, git: "https://github.com/elixir-lang/mydep.git", tag: "0.1.0"}
-  #
-  # Type `mix help deps` for more examples and options
+  # Type `mix help deps` for examples and options.
   defp deps do
     [
-      {:plug, "~> 1.0.3"},
-      {:poison, "~> 1.5.0", optional: true},
-      {:comeonin, "~> 1.6", optional: true},
-      {:exredis, "~> 0.2.0", optional: true}
+      {:plug, "~> 1.1"},
+      {:poison, "~> 1.5 or ~> 2.0", optional: true},
+      {:comeonin, "~> 2.1", optional: true},
+      {:redix, "~> 0.3", optional: true},
+      {:poolboy, "~> 1.5", optional: true}
     ]
   end
 
