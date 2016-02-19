@@ -1,4 +1,8 @@
 defmodule ExDjango.RedixPool do
+  @moduledoc """
+  An example redix redis connections pool
+  """
+
   use Supervisor
 
   @redis_connection_params host: "127.0.0.1"

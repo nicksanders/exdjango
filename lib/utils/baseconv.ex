@@ -1,4 +1,9 @@
 defmodule ExDjango.Utils.Baseconv do
+  @moduledoc """
+  Functions for converting numbers from base 10 integers to base X strings and back again.
+
+  Compatible with django/utils/baseconv.py
+  """
 
   @base10_chars "0123456789"
 

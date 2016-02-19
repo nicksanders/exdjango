@@ -31,7 +31,9 @@ defmodule ExDjango.Mixfile do
       {:poison, "~> 1.5 or ~> 2.0", optional: true},
       {:comeonin, "~> 2.1", optional: true},
       {:redix, "~> 0.3", optional: true},
-      {:poolboy, "~> 1.5", optional: true}
+      {:poolboy, "~> 1.5", optional: true},
+      {:earmark, "~> 0.1", only: :dev},
+      {:ex_doc, "~> 0.11.4", only: :dev},
     ]
   end
 

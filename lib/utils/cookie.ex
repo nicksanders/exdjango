@@ -1,4 +1,8 @@
 defmodule ExDjango.Utils.Cookie do
+  @moduledoc """
+  Helper functions for working with django signed cookies.
+  """
+
   alias ExDjango.Utils.Baseconv
   alias ExDjango.Utils.Signing
   alias ExDjango.Utils.Zlib

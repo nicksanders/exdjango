@@ -1,4 +1,8 @@
 defmodule ExDjango.Utils.Redis do
+  @moduledoc """
+  Helper functions for working with django redis sessions.
+  """
+
   alias ExDjango.Session
 
   def default_session_key_prefix(), do: ":1:django.contrib.sessions.cache"

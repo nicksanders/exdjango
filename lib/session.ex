@@ -2,13 +2,13 @@ defmodule ExDjango.Session do
   @moduledoc """
   Module to manage django sessions.
 
-  To get a user_id from a cookie session
+  To get a `user_id` from a cookie session:
 
-    Session.get_session(:cookie, sid) |> Session.get_user_id()
+      Session.get_session(:cookie, sid) |> Session.get_user_id()
 
-  To get a user_id from a redis session
+  To get a `user_id` from a redis session:
 
-    Session.get_session(:redis, sid) |> Session.get_user_id()
+      Session.get_session(:redis, sid) |> Session.get_user_id()
   """
 
   alias ExDjango.Utils

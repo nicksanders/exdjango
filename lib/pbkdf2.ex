@@ -1,17 +1,19 @@
 defmodule ExDjango.Pbkdf2 do
   @moduledoc """
-  Comeonin didn't want to support pbkdf2_sha256 so copied to here
+  Module to handle django pbkdf2_sha256 and pbkdf2_sha512 authentication.
 
-  Module to handle pbkdf2_sha256 authentication.
+  Comeonin didn't want to support pbkdf2_sha256 so copied to here.
+
+  Comeonin password hashes start with $ it will work with both Django and Comeonin password hashes.
 
   To generate a password hash, use the `hashpwsalt` function:
 
-    ExDjango.Pbkdf2.hashpwsalt("hard to guess")
-    ExDjango.Pbkdf2.hashpwsalt("hard to guess", 20_000, :sha256)
+      ExDjango.Pbkdf2.hashpwsalt("hard to guess")
+      ExDjango.Pbkdf2.hashpwsalt("hard to guess", 20_000, :sha256)
 
   To check the password against a password hash, use the `checkpw` function:
 
-    ExDjango.Pbkdf2.checkpw("hard to guess", stored_hash)
+      ExDjango.Pbkdf2.checkpw("hard to guess", stored_hash)
 
   There is also a `dummy_checkpw`, which can be used to stop an attacker guessing
   a username by timing the responses.
@@ -118,6 +120,9 @@ defmodule ExDjango.Pbkdf2 do
     false
   end
 
+  @doc """
+  Calculate pbkdf2 hash
+  """
   def pbkdf2(:sha256, password, salt, rounds), do: pbkdf2(:sha256, password, salt, rounds, 32)
   def pbkdf2(:sha512, password, salt, rounds), do: pbkdf2(:sha512, password, salt, rounds, 64)
 

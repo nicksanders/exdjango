@@ -1,4 +1,9 @@
 defmodule ExDjango.Utils.Signing do
+  @moduledoc """
+  Functions for creating and restoring url-safe signed JSON objects.
+
+  Compatible with django/core/signing.py
+  """
 
   def default_salt() do
     "django.contrib.sessions.backends.signed_cookiessigner"

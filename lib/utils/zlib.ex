@@ -1,4 +1,7 @@
 defmodule ExDjango.Utils.Zlib do
+  @moduledoc """
+  Zlib compress and decompress functions
+  """
 
   def compress(data) do
     z = :zlib.open()
