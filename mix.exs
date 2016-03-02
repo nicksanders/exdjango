@@ -3,7 +3,7 @@ defmodule ExDjango.Mixfile do
 
   def project do
     [app: :exdjango,
-     version: "0.3.0",
+     version: "0.3.1",
      elixir: "~> 1.0",
      build_embedded: Mix.env == :prod,
      start_permanent: Mix.env == :prod,

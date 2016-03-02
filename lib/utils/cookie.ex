@@ -23,6 +23,7 @@ defmodule ExDjango.Utils.Cookie do
     end
   end
 
+  def verify(nil, _, _), do: {:error, "Invalid Cookie"}
   def verify(sid, secret_key, max_age), do: verify(sid, secret_key, max_age, Signing.default_salt())
   def verify(sid, secret_key, max_age, salt) do
     case String.split(sid, ":") do

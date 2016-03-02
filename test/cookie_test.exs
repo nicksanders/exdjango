@@ -10,6 +10,8 @@ defmodule ExDjango.CookieTest do
     output = "{\"django_timezone\":\"Europe/London\",\"_auth_user_hash\":\"bfe71d836b172c07407f329568b18b307375eeb1\",\"_auth_user_backend\":\"django.contrib.auth.backends.ModelBackend\",\"_auth_user_id\":1,\"_language\":\"en-gb\",\"last_request\":\"2015-06-07T08:54:25\"}"
 
     assert Cookie.verify(input, @secret, nil) == {:ok, output}
+    assert Cookie.verify(nil, @secret, 0) == {:error, "Invalid Cookie"}
+    assert Cookie.verify("egergergegr", @secret, 0) == {:error, "Invalid Cookie"}
     assert Cookie.verify(input, @secret, 0) == {:error, "Session Expired"}
     assert Cookie.verify(input, @secret, 99999999) == {:ok, output}
 
