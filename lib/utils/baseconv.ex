@@ -54,15 +54,19 @@ defmodule ExDjango.Utils.Baseconv do
   def encode(chars, sign, s) when is_integer(s), do: encode(chars, sign, Integer.to_string(s))
   def encode(chars, sign, s) do
     {neg, res} = convert(s, @base10_chars, chars, "-")
-    if neg, do: res = sign <> res
-    res
+    case neg do
+      true -> sign <> res
+      _ -> res
+    end
   end
 
   def decode(base, s), do: decode(get_chars(base), get_sign(base), s)
   def decode(chars, sign, s) do
     {neg, res} = convert(s, chars, @base10_chars, sign)
-    if neg, do: res = "-" <> res
-    String.to_integer(res)
+    case neg do
+      true -> String.to_integer("-" <> res)
+      _ -> String.to_integer(res)
+    end
   end
 
 end

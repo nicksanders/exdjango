@@ -23,8 +23,9 @@ defmodule ExDjango.Utils.Cookie do
     end
   end
 
-  def verify(nil, _, _), do: {:error, "Invalid Cookie"}
   def verify(sid, secret_key, max_age), do: verify(sid, secret_key, max_age, Signing.default_salt())
+
+  def verify(nil, _, _, _), do: {:error, "Invalid Cookie"}
   def verify(sid, secret_key, max_age, salt) do
     case String.split(sid, ":") do
       [payload, timestamp, signature] ->
@@ -58,13 +59,16 @@ defmodule ExDjango.Utils.Cookie do
   end
 
   def verify_timestamp(timestamp, max_age) do
-    result = :ok
-    if max_age != nil do
-      min_secs = :erlang.system_time(:seconds) - max_age
-      secs = Baseconv.decode(:base62, timestamp)
-      if secs < min_secs, do: result = :error
+    case max_age != nil do
+      true ->
+        min_secs = :erlang.system_time(:seconds) - max_age
+        secs = Baseconv.decode(:base62, timestamp)
+        case secs < min_secs do
+          true -> :error
+          _ -> :ok
+        end
+      _ -> :ok
     end
-    result
   end
 
   def decode_payload(payload) do
