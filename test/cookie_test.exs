@@ -1,6 +1,7 @@
 defmodule ExDjango.CookieTest do
   use ExUnit.Case, async: true
   alias ExDjango.Utils.Cookie
+  alias ExDjango.Utils.Signing
   alias ExDjango.Session
 
   @secret "6utnz%qfm$fs0legp)e@uxjlk-3hyo8sp4dc-y+x@z(!p=l@l9"
@@ -11,6 +12,8 @@ defmodule ExDjango.CookieTest do
 
     assert Cookie.verify(input, @secret, nil) == {:ok, output}
     assert Cookie.verify(nil, @secret, 0) == {:error, "Invalid Cookie"}
+    assert Cookie.verify(nil, @secret, 0, nil) == {:error, "Invalid Cookie"}
+    assert Cookie.verify(nil, @secret, 0, Signing.default_salt()) == {:error, "Invalid Cookie"}
     assert Cookie.verify("egergergegr", @secret, 0) == {:error, "Invalid Cookie"}
     assert Cookie.verify(input, @secret, 0) == {:error, "Session Expired"}
     assert Cookie.verify(input, @secret, 99999999) == {:ok, output}

@@ -75,7 +75,7 @@ defmodule ExDjango.Pbkdf2 do
   in the config file.
   """
   def hashpwsalt(password, rounds \\ @pbkdf2_rounds, algorithm \\ :sha256) do
-    hashpass(password, gen_salt, rounds, algorithm)
+    hashpass(password, gen_salt(), rounds, algorithm)
   end
 
   defp format(hash, salt, rounds, algorithm) do

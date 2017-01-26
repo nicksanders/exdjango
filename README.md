@@ -20,31 +20,31 @@ Add ex_django to your `mix.exs` dependencies other dependencies are optional dep
 
 ```elixir
 defp deps do
-[ {:exdjango, "~> 0.3.1"} ]
+[ {:exdjango, "~> 0.3.3"} ]
 end
 ```
 
 If you need sessions you need to add poison
 
 ```elixir
-{:poison, "~> 1.5.0"},
+{:poison, "~> 3.0"},
 ```
 
 If you need to read/write django passwords you need to add comeonin
 
 ```elixir
-{:comeonin, "~> 1.6"},
+{:comeonin, "~> 3.0"},
 ```
 
 ## Django sessions
 Add secret_key to config.exs and add either Cookie or Redis to endpoint.ex Plug config
 
 ```elixir
-# config.exs  
+# config.exs
 config :exdjango, :config,
   secret_key: "django-secret-key"
 
-# endpoint.ex  
+# endpoint.ex
 plug Plug.Session,
   store: ExDjango.Session.Cookie,
   key: "sessionid"
@@ -53,12 +53,12 @@ plug Plug.Session,
 or
 
 ```elixir
-# config.exs  
+# config.exs
 config :exdjango, :config,
   secret_key: "django-secret-key"
   redis_pool: MyApp.RedixPool
 
-# endpoint.ex  
+# endpoint.ex
 plug Plug.Session,
   store: ExDjango.Session.Redis,
   key: "sessionid"
