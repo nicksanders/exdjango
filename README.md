@@ -20,7 +20,7 @@ Add ex_django to your `mix.exs` dependencies other dependencies are optional dep
 
 ```elixir
 defp deps do
-[ {:exdjango, "~> 0.3.3"} ]
+[ {:exdjango, "~> 0.3.4"} ]
 end
 ```
 

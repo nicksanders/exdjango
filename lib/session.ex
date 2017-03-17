@@ -51,6 +51,8 @@ defmodule ExDjango.Session do
   def secret_key() do
     case Application.get_env(:exdjango, :config)[:secret_key] do
       nil -> raise(ArgumentError, "ExDjango session needs a secret key")
+      {:system, env_var} -> System.get_env(env_var)
+      {:system, env_var, default} -> System.get_env(env_var) || default
       x -> x
     end
   end
