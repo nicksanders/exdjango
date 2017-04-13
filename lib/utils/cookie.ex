@@ -3,11 +3,11 @@ defmodule ExDjango.Utils.Cookie do
   Helper functions for working with django signed cookies.
   """
 
+  import Logger
   alias ExDjango.Utils.Baseconv
   alias ExDjango.Utils.Signing
   alias ExDjango.Utils.Zlib
   alias ExDjango.Session
-
 
   def get_session(sid) do
     secret_key = Session.secret_key()
@@ -18,8 +18,11 @@ defmodule ExDjango.Utils.Cookie do
 
   def get_session(sid, secret_key, max_age, salt) do
     case verify(sid, secret_key, max_age, salt) do
-      {:ok, data} -> data |> Session.decode()
-      {:error, _} -> %{}
+      {:ok, data} ->
+        data |> Session.decode()
+      {:error, msg} ->
+        Logger.debug("ExDjango: get_session error (#{msg})")
+        %{}
     end
   end
 
