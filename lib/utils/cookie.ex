@@ -3,7 +3,7 @@ defmodule ExDjango.Utils.Cookie do
   Helper functions for working with django signed cookies.
   """
 
-  import Logger
+  require Logger
   alias ExDjango.Utils.Baseconv
   alias ExDjango.Utils.Signing
   alias ExDjango.Utils.Zlib
